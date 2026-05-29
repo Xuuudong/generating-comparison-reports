@@ -1,9 +1,6 @@
 <div align="center">
   <h1>📊 Generating Comparison Reports</h1>
-  <p>
-    <a href="#chinese">🇨🇳 中文</a> &nbsp;|&nbsp;
-    <a href="#english">🇬🇧 English</a>
-  </p>
+  <p>一键生成专业多维度对比分析报告</p>
   <p>
     <img src="https://img.shields.io/badge/version-3.0-blue" alt="version">
     <img src="https://img.shields.io/badge/WCAG-2.1%20AA-green" alt="WCAG">
@@ -11,11 +8,11 @@
   </p>
 </div>
 
+<p align="center"><b>👉 <a href="#chinese">中文文档</a> &nbsp;|&nbsp; <a href="#english">English Documentation</a></b></p>
+
 ---
 
 <a id="chinese"></a>
-
-<div id="zh-default">
 
 ## 🇨🇳 中文
 
@@ -41,7 +38,7 @@
   → HTML 报告生成 → Markdown 报告生成 → 验证与交付
 ```
 
-**输出结构**:
+**输出结构**：
 
 ```
 output/
@@ -56,14 +53,14 @@ output/
 |:--------|:------------|
 | 🔍 **自动数据采集** | 并行读取多目录下的 SKILL.md、评测报告、日志 |
 | 🏷️ **智能图表推荐** | 根据数据特征自动匹配最优图表类型（14+ 种） |
-| 📊 **14+ 种图表** | 柱状图、蝴蝶图、环形图、散点图、雷达图、桑基图、折线图、热力图、箱线图、树图、漏斗图、平行坐标、分组柱状图、表格进度条，加 ECharts 6.0 蜂群图/断轴图/弦图 |
+| 📊 **14+ 种图表** | 柱状图、蝴蝶图、环形图、散点图、雷达图、桑基图、折线图、热力图、箱线图、树图、漏斗图、平行坐标、分组柱状图、表格进度条、蜂群图、断轴图、弦图 |
 | ♿ **WCAG 2.1 AA 无障碍** | 每张图表自动生成 ARIA 标签和贴花纹理 |
-| 🔗 **联动高亮** | hover 一个实体，所有图表中该实体同时高亮 |
+| 🔗 **联动高亮** | hover 一个实体，所有图表中同步高亮 |
 | ⬇ **图表导出** | 每张图表 hover 显示下载按钮，一键导出 2x PNG |
 | ⚡ **懒加载** | 图表滚动到视口才渲染，含 4 秒超时兜底 |
-| 🎨 **暗色模式** | 手动切换 + 完整 CSS 暗色主题 |
-| 📱 **响应式** | 移动端/平板/桌面三级断点自适应 |
-| 🔄 **版本对比** | 自动识别上次运行结果，▲/▼ 变化标注 |
+| 🎨 **暗色模式** | 手动切换 + CSS 暗色主题 |
+| 📱 **响应式** | 移动端/平板/桌面三级断点 |
+| 🔄 **版本对比** | 自动识别上次结果，▲/▼ 变化标注 |
 | 🗺️ **Mermaid** | Markdown 报告含原生 Mermaid 流程图 |
 | 🏷️ **数据溯源** | [P]主/[F]备/[I]推断/[M]缺失 四级标记 |
 
@@ -128,16 +125,11 @@ MIT © [Xuuudong](https://github.com/Xuuudong)
 
 <p align="right"><a href="#english">English ↓</a></p>
 
-</div>
-
 ---
 
 <a id="english"></a>
 
-<details>
-<summary><b>🇬🇧 English</b> （点击展开 / Click to expand）</summary>
-
-<br>
+## 🇬🇧 English
 
 ### ✨ What It Does
 
@@ -150,7 +142,7 @@ A skill for OpenCode/Claude/AI agents that generates **self-contained HTML + Mar
 Activate with natural language:
 
 ```
-"Compare the two benchmark runs in D:\run-v1 and D:\run-v2"
+"Compare the two benchmark runs in D:\run-v1 and D:\run-v2, generate a comprehensive report"
 "横向评测这5个模型的效果，用图表展示差异"
 ```
 
@@ -176,15 +168,15 @@ output/
 |:--------|:------------|
 | 🔍 **Auto Data Collection** | Parallel read of SKILL.md, reports, logs from multiple dirs |
 | 🏷️ **Smart Chart Selection** | Auto-recommends chart types based on data patterns |
-| 📊 **14+ Chart Types** | Bar, Butterfly, Donut, Scatter, Radar, Sankey, Line, Heatmap, Boxplot, Treemap, Funnel, Parallel, Grouped Bar, Table Progress, plus ECharts 6.0 Beeswarm/Broken Axis/Chord |
+| 📊 **14+ Chart Types** | Bar, Butterfly, Donut, Scatter, Radar, Sankey, Line, Heatmap, Boxplot, Treemap, Funnel, Parallel, Grouped Bar, Table Progress, plus Beeswarm/Broken Axis/Chord (ECharts 6.0) |
 | ♿ **WCAG 2.1 AA** | ARIA labels + decal patterns on every chart |
 | 🔗 **Linked Highlighting** | Hover an entity → same entity highlights in ALL charts |
 | ⬇ **PNG Export** | Hover-reveal download button per chart (2x PNG) |
 | ⚡ **Lazy Rendering** | Charts render on scroll, with 4-second safety net |
-| 🎨 **Dark Mode** | Manual toggle + full CSS dark theme |
+| 🎨 **Dark Mode** | Manual toggle + CSS dark theme |
 | 📱 **Responsive** | Mobile/tablet/desktop breakpoints |
-| 🔄 **Report Diff** | Auto-detects previous runs, annotates ▲/▼ |
-| 🗺️ **Mermaid** | Architecture diagrams as native Mermaid blocks in MD |
+| 🔄 **Report Diff** | Auto-detects previous runs, annotates ▲/▼ changes |
+| 🗺️ **Mermaid** | Architecture diagrams as native Mermaid blocks in MD reports |
 | 🏷️ **Data Provenance** | [P]rimary/[F]allback/[I]nferred/[M]issing tier labels |
 
 ### 📊 Chart Types
@@ -247,5 +239,3 @@ PRs welcome. Chart templates in `references/chart-selector.md`.
 MIT © [Xuuudong](https://github.com/Xuuudong)
 
 <p align="right"><a href="#chinese">中文 ↑</a></p>
-
-</details>
