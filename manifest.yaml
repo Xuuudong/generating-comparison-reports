@@ -1,0 +1,86 @@
+name: generating-comparison-reports
+version: "3.0"
+description: |
+  WCAG 2.1 AA-compliant multi-dimensional comparative analysis report generator.
+  Produces HTML+Markdown dual-format reports with ECharts visualizations (14+ types),
+  ARIA accessibility, chart export buttons, linked cross-chart highlighting,
+  lazy rendering, report version diffing, KPI cards, and executive summaries.
+  Outputs self-contained HTML files that open directly in any browser.
+
+author: OpenCode User
+license: MIT
+
+keywords:
+  - comparison
+  - benchmark
+  - report
+  - echarts
+  - visualization
+  - analysis
+  - html
+  - markdown
+  - data-science
+  - evaluation
+
+categories:
+  - Data Science & ML
+  - Reporting & Documentation
+  - Visualization
+
+platforms:
+  - opencode
+  - codex
+  - openclaw
+  - claude-code
+
+capabilities:
+  - multi-entity comparison
+  - chart auto-recommendation
+  - ECharts rendering (14 types: bar, butterfly, donut, scatter, radar, sankey, grouped-bar, line, heatmap, boxplot, treemap, funnel, parallel, table-progress)
+  - ECharts 6.0 support (beeswarm, broken-axis, chord — version-gated with v5 fallback)
+  - WCAG 2.1 AA accessibility (ARIA labels + decal patterns)
+  - chart PNG export buttons
+  - linked cross-chart entity highlighting (echarts.connect)
+  - lazy chart rendering (IntersectionObserver + safety-net)
+  - progressive rendering for large datasets
+  - report version diffing (consecutive run comparison)
+  - dual-format output (HTML + Markdown)
+  - KPI summary cards
+  - table-of-contents navigation
+  - cross-validation methodology
+  - data provenance tracking
+  - mobile-responsive layout
+  - dark mode support
+
+outputs:
+  - type: html
+    description: "Self-contained HTML with inline CSS + ECharts"
+  - type: markdown
+    description: "Markdown with color-coded tables and chart annotations"
+
+dependencies:
+  echarts: ">=5.4.0"
+  cdn: "https://cdn.staticfile.net/echarts/5.5.0/echarts.min.js"
+
+trigger_phrases:
+  zh:
+    - 对比分析
+    - 横向评测
+    - 综合报告
+    - 模型横评
+    - 技术选型
+    - Skill对比
+    - 生成对比报告
+    - 多维分析报告
+  en:
+    - comparison report
+    - benchmark report
+    - cross-model evaluation
+    - technology selection comparison
+    - comprehensive analysis report
+    - side-by-side comparison
+
+size:
+  skill_lines: ~400
+  reference_lines: ~1300
+  total_references: 4

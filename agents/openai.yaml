@@ -1,0 +1,24 @@
+openai_compatible: true
+name: generating-comparison-reports
+display_name: "对比分析报告生成器"
+description: "Generates multi-dimensional comparative analysis reports with ECharts visualizations, KPI cards, and dual HTML+MD output."
+version: "3.0.0"
+author: "OpenCode User"
+tags:
+  - report-generation
+  - data-visualization
+  - comparison-analysis
+  - echarts
+  - benchmarking
+instructions: |
+  This skill generates professional comparison reports from multiple data sources.
+  It produces self-contained HTML files with ECharts charts and Markdown companion files.
+  The HTML files open directly in any browser — no server or build step required.
+
+  Key workflow:
+  1. Collect data from source directories
+  2. Analyze across 5 dimensions (efficiency, cost, stability, quality, compliance)
+  3. Auto-recommend chart types based on data patterns
+  4. Generate HTML with initChart() pattern + staticfile CDN
+  5. Generate Markdown with color-coded tables
+  6. Validate browser console zero errors, chart rendering, cross-version consistency
