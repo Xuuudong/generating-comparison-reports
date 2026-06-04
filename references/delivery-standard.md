@@ -206,14 +206,19 @@ function initChartLazy(id, option) {
     entries.forEach(function(e) {
       if (e.isIntersecting && !_rendered[id]) {
         _rendered[id] = true;
-        initChart(id, option);
         observer.unobserve(e.target);
+        requestAnimationFrame(function() {
+          setTimeout(function() { initChart(id, option); }, 100);
+        });
       }
     });
   });
   observer.observe(dom);
   setTimeout(function() {
-    if (!_rendered[id]) { _rendered[id] = true; initChart(id, option); observer.unobserve(dom); }
+    if (!_rendered[id]) { _rendered[id] = true; observer.unobserve(dom);
+      requestAnimationFrame(function() {
+        setTimeout(function() { initChart(id, option); }, 100);
+      }); }
   }, 4000);
 }
 ```

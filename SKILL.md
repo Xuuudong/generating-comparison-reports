@@ -1,6 +1,6 @@
 ---
 name: generating-comparison-reports
-version: "3.0"
+version: "3.1"
 description: Generates WCAG 2.1 AA-compliant multi-dimensional comparative analysis reports in HTML+Markdown dual format with 14+ ECharts chart types (bar, butterfly, donut, scatter, radar, sankey, line, heatmap, boxplot, treemap, funnel, parallel, grouped-bar, table-progress, plus ECharts 6.0 beeswarm/broken-axis/chord when available), ARIA accessibility, chart export buttons, linked cross-chart highlighting, lazy rendering, KPI cards, TOC navigation, responsive/dark-mode, and executive summary. Activates when the user requests comparison analysis, cross-model evaluation, comprehensive report, model benchmarking, technology selection comparison, or Skill comparison. Automatically cross-validates data from multiple sources.
 ---
 
@@ -163,6 +163,39 @@ Include a numbered list of corrections with explicit before→after changes.
 
 Do NOT add fallback CDN scripts or `if (typeof echarts === 'undefined')` checks — they cause silent failures.
 
+**JavaScript code formatting (REQUIRED)** — ALL chart option code in `<script>` blocks MUST be written in human-readable multi-line format with proper indentation. Never compress chart configuration into single lines. This is a hard rule — minified chart code is the #1 cause of silent JavaScript syntax errors that break every chart on the page with no visible error message.
+
+```javascript
+// ❌ WRONG — minified, bracket errors invisible
+initChart('chart-1',{group:'rg',aria:{show:true},title:{text:'Title'},series:[{type:'bar',data:[1,2,3],formatter:function(p){return p.value}}]});
+
+// ✅ CORRECT — formatted, brackets clearly visible
+initChart('chart-1', {
+  group: 'report-group',
+  aria: { show: true, decal: { show: true } },
+  title: { text: 'Title', left: 'center', textStyle: { fontSize: 14 } },
+  series: [{
+    type: 'bar',
+    data: [1, 2, 3],
+    label: {
+      show: true,
+      formatter: function(p) { return p.value; }
+    }
+  }]
+});
+```
+
+Each `initChart()` call must span at least 7-10 lines. Each `{` should have a visible matching `}` at the same indentation level. Formatter functions must close with `}` not `]`.
+
+**Before saving the HTML file**, run a bracket balance check:
+```powershell
+$js = (Get-Content "report.html" -Raw) -replace ".*<script>", "" -replace "</script>.*", ""
+$opens = ($js.ToCharArray() | Where-Object { $_ -eq '{' }).Count
+$closes = ($js.ToCharArray() | Where-Object { $_ -eq '}' }).Count
+if ($opens -ne $closes) { Write-Warning "BRACKET MISMATCH: {=$opens }=$closes" }
+```
+If the counts don't match, fix the syntax before proceeding. Only proceed to delivery when `{}` balance = 0.
+
 **Chart initialization (REQUIRED)** — use a global `initChart()` helper with a single debounced resize handler. Never use IIFE wrappers:
 
 ```javascript
@@ -193,6 +226,7 @@ echarts.connect('report-group');
 | 3 | Sankey: all nodes same color, `nodeAlign: 'left'`, opaque links | Sankey: **gradient colors** (dark→light per pipeline), `nodeAlign: 'justify'`, `lineStyle.opacity: 0.25` |
 | 4 | Chart `<script>` wrapped in `(function() { ... })()` IIFE | Flat `initChart()` calls, no nesting |
 | 5 | Legend colors don't match bar colors (ECharts auto-assigns) | Set top-level `color: ['#hex1', '#hex2']` matching series order |
+| 6 | Chart JavaScript written in **minified/single-line** format | **Formatted multi-line JS** with proper indentation. Minified code hides syntax errors and makes debugging impossible. Every `initChart()` call must span >= 8 lines with visible bracket nesting. |
 
 ### Accessibility (REQUIRED — WCAG 2.1 AA compliance)
 
@@ -279,8 +313,10 @@ function initChartLazy(id, option, immediate) {
     entries.forEach(function(e) {
       if (e.isIntersecting && !_rendered[id]) {
         _rendered[id] = true;
-        initChart(id, option);
         observer.unobserve(e.target);
+        requestAnimationFrame(function() {
+          setTimeout(function() { initChart(id, option); }, 100);
+        });
       }
     });
   });
@@ -289,7 +325,10 @@ function initChartLazy(id, option, immediate) {
 
   // Safety net: force-render after 4 seconds even if IntersectionObserver fails
   setTimeout(function() {
-    if (!_rendered[id]) { _rendered[id] = true; initChart(id, option); observer.unobserve(dom); }
+    if (!_rendered[id]) { _rendered[id] = true; observer.unobserve(dom);
+      requestAnimationFrame(function() {
+        setTimeout(function() { initChart(id, option); }, 100);
+      }); }
   }, 4000);
 }
 ```
@@ -379,13 +418,14 @@ V3 (new/lean):  #1B5E20 → #2E7D32 → #388E3C → ... → #4CAF50 → #00875A 
 > ⚠️ Butterfly left/right must use the **same unit** — convert if data sources differ (e.g., seconds → minutes).
 
 **Validation checklist** — after generating HTML, open in browser and verify:
-1. Browser console has **zero errors** (F12 → Console)
-2. All chart canvases render (no blank areas, no error text)
-3. Legend colors match bar/line colors
-4. Chart labels are readable (no truncation/overlap)
-5. Hovering an entity highlights it in ALL charts simultaneously (connected group test)
-6. Hovering chart containers reveals export button; clicking downloads PNG
-7. Run Lighthouse audit: accessibility score ≥ 90
+1. **Bracket balance**: run the PowerShell check in "JS code formatting" section — `{}` diff must be 0
+2. Browser console has **zero errors** (F12 → Console)
+3. All chart canvases render (no blank areas, no error text)
+4. Legend colors match bar/line colors
+5. Chart labels are readable (no truncation/overlap)
+6. Hovering an entity highlights it in ALL charts simultaneously (connected group test)
+7. Hovering chart containers reveals export button; clicking downloads PNG
+8. Run Lighthouse audit: accessibility score ≥ 90
 
 **KPI cards**: Use 4 or 5 cards (N = number of key headline metrics). Each card has `.kpi-value` (large number), `.kpi-label` (description), and `.kpi-sub` (detail). Cards get color classes: `.kpi-green`, `.kpi-blue`, `.kpi-red`, `.kpi-gold`.
 
@@ -451,15 +491,16 @@ flowchart TD
 
 ### Step 6: Validate & Deliver
 
-1. **Validate HTML**: open in browser, verify all charts render (check ECharts container IDs match `initChart()` calls)
-2. **Validate Markdown**: verify all anchors resolve, Mermaid syntax correct
-3. **Cross-check**: key numbers identical between HTML and Markdown versions
-4. **Correction audit**: if this is a corrected edition, verify each errata item against source data
-5. **Clean output**: ensure only final `.html` + `.md` deliverables in `{output_dir}/` root, all intermediates in `{output_dir}/tmp/`
-6. Copy both files to target directory (`Copy-Item -Force` on Windows)
-7. Verify output files are non-zero size
+1. **Bracket balance check (GATE)**: run the PowerShell bracket check (see "JS code formatting" section). If `{}` diff ≠ 0, **stop and fix** — do not proceed.
+2. **Validate HTML**: open in browser, verify all charts render (check ECharts container IDs match `initChart()` calls)
+3. **Validate Markdown**: verify all anchors resolve, Mermaid syntax correct
+4. **Cross-check**: key numbers identical between HTML and Markdown versions
+5. **Correction audit**: if this is a corrected edition, verify each errata item against source data
+6. **Clean output**: ensure only final `.html` + `.md` deliverables in `{output_dir}/` root, all intermediates in `{output_dir}/tmp/`
+7. Copy both files to target directory (`Copy-Item -Force` on Windows)
+8. Verify output files are non-zero size
 
-If validation fails, fix issues and re-validate before proceeding. Never deliver without passing all 7 checks.
+If validation fails, fix issues and re-validate before proceeding. Never deliver without passing all 8 checks.
 
 ## Examples
 
